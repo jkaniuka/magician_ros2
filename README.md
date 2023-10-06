@@ -2,10 +2,10 @@
 <img src="https://img.shields.io/badge/ros--version-humble-green"/>  <img src="https://img.shields.io/badge/platform%20-Ubuntu%2022.04-orange"/>  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > **Note**
-> Installation instructions can be found on the [**main**]()#TODO branch.
+> Installation instructions can be found on the [**main**](https://github.com/jkaniuka/magician_ros2/tree/main) branch.
   
 > **Warning**
-> Control system that allows you to operate several robots connected to the same network/computer is a modification of the base version of the system (see the [**main**]()#TODO branch). Only modifications are described below - full documentation is available on the [**main**]()#TODO branch.
+> Control system that allows you to operate several robots connected to the same network/computer is a modification of the base version of the system (see the [**main**](https://github.com/jkaniuka/magician_ros2/tree/main) branch). Only modifications are described below - full documentation is available on the [**main**](https://github.com/jkaniuka/magician_ros2/tree/main) branch.
 
 
 <p align="center">
@@ -72,7 +72,7 @@ ros2 run dobot_demos <executable_name> --ros-args -r __ns:=/magician1
 
 #### Bug Reports & Feature Requests
 
-Please use the [**issue tracker**]()#TODO to report any bugs or feature requests.
+Please use the [**issue tracker**](https://github.com/jkaniuka/magician_ros2/issues) to report any bugs or feature requests.
 
 
 

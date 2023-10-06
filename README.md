@@ -55,7 +55,7 @@ Follow the instructions from the [link](https://docs.ros.org/en/humble/Installat
 
 
 ### Install additional modules and packages  
-All necessary modules are in [requirements.txt]()#TODO, install using: `pip3 install -r requirements.txt`   
+All necessary modules are in [requirements.txt](https://github.com/jkaniuka/magician_ros2/blob/main/requirements.txt), install using: `pip3 install -r requirements.txt`   
 Packages from apt repository: `sudo apt install ros-humble-diagnostic-aggregator ros-humble-rqt-robot-monitor python3-pykdl`    
 :warning: After installing new RQT plugins run `rqt --force-discover` to make plugins visible in RQT GUI. This issue is further described [here](https://answers.ros.org/question/338282/ros2-what-is-the-rqt-force-discover-option-meaning/).
 
@@ -63,7 +63,7 @@ Packages from apt repository: `sudo apt install ros-humble-diagnostic-aggregator
 ```
 source /opt/ros/humble/setup.bash
 mkdir -p ~/magician_ros2_control_system_ws/src
-git clone #TODO ~/magician_ros2_control_system_ws/src
+git clone https://github.com/jkaniuka/magician_ros2.git ~/magician_ros2_control_system_ws/src
 cd magician_ros2_control_system_ws
 rosdep install -i --from-path src --rosdistro humble -y
 colcon build
@@ -255,7 +255,7 @@ After disconnecting the sliding rail, continue your work in a new terminal windo
 
 <a name="mrs"></a>
 ## Multi-Robot System (MRS) :robot:
-If you want to connect several Dobot Magician robots to the same computer or to the same network, thus creating a _multi-robot system_ (MRS), check the [**magician-mrs**]()#TODO branch.
+If you want to connect several Dobot Magician robots to the same computer or to the same network, thus creating a _multi-robot system_ (MRS), check the [**magician-mrs**](https://github.com/jkaniuka/magician_ros2/tree/magician-mrs) branch.
 
 <a name="video"></a>
 ## Video - see how the system works :movie_camera:
@@ -301,7 +301,7 @@ If you find this work useful, please give credits to the author by citing:
 
 #### Bug Reports & Feature Requests
 
-Please use the [**issue tracker**]()#TODO to report any bugs or feature requests.
+Please use the [**issue tracker**](https://github.com/jkaniuka/magician_ros2/issues) to report any bugs or feature requests.
 
 
 

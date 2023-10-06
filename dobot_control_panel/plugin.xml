@@ -1,0 +1,17 @@
+<library path="./">
+  <class name="DobotControlPanel" type="dobot_control_panel.ros2_dobot_control_panel.Ros2DobotControlPanel" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      Rqt plugin that allows you to control Dobot Magician robotic arm.
+    </description>
+    <qtgui>
+      <group>
+        <label>Robot Tools</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to Robot Tools.</statustip>
+      </group>
+      <label>Dobot Control Panel</label>
+      <icon type="theme">input-gaming</icon>
+      <statustip>A Python GUI plugin for controlling Dobot Magician robotic arm.</statustip>
+    </qtgui>
+  </class>
+</library>

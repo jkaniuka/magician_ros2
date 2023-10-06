@@ -1,0 +1,7 @@
+/**:
+  ros__parameters:
+    axis_1_range: [-125, 125]
+    axis_2_range: [-5, 90]
+    axis_3_range: [-15, 70]
+    axis_4_range: [-150, 150]
+    use_ground_collision_detection: True

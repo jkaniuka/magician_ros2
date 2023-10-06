@@ -1,0 +1,7 @@
+#request fields
+string gripper_state 
+bool keep_compressor_running
+---
+#response fields
+bool success   
+string message

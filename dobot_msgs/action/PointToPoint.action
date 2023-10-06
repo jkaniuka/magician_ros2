@@ -1,0 +1,16 @@
+# Motion type constants
+uint8 MOTION_TYPE_MOVJ_XYZ = 1
+uint8 MOTION_TYPE_MOVL_XYZ = 2
+uint8 MOTION_TYPE_MOVJ_ANGLE = 4
+uint8 MOTION_TYPE_MOVL_ANGLE = 5
+#goal definition
+uint8 motion_type
+float64[4]  target_pose
+float64 velocity_ratio 1.0
+float64 acceleration_ratio 1.0
+---
+#result definition
+float64[4] achieved_pose
+---
+#feedback definition
+float64[4] current_pose

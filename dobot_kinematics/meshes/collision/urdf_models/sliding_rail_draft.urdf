@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="sliding_rail_model" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <material name="Yellow">
+    <color rgba="1 1 0.0 1"/>
+  </material>
+
+  <link name="sliding_rail_component">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.06 1.3 0.06"/>
+      </geometry>
+       <material name="Yellow"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.06 1.3 0.06"/>
+      </geometry>
+      <material name="Yellow"/>
+    </collision>
+  </link>
+</robot>

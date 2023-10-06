@@ -1,0 +1,14 @@
+/dobot_PTP_server:
+  ros__parameters:
+    JT1_vel: 140
+    JT2_vel: 140
+    JT3_vel: 140
+    JT4_vel: 140
+    JT1_acc: 100
+    JT2_acc: 100
+    JT3_acc: 100
+    JT4_acc: 100
+    TCP_vel: 140
+    end_tool_rot_vel: 70
+    TCP_acc: 100
+    end_tool_rot_acc: 50

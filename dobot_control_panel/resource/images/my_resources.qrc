@@ -1,0 +1,19 @@
+<RCC>
+  <qresource prefix="collection">
+    <file>dobot_joints_system.png</file>
+    <file>cartesian_system.png</file>
+    <file>velocity.png</file>
+    <file>sliding_rail2.png</file>
+    <file>settings.png</file>
+    <file>rail_image.png</file>
+    <file>info.png</file>
+    <file>bg-red.svg</file>
+    <file>bg-green.svg</file>
+    <file>status_error.png</file>
+    <file>status_ok.png</file>
+    <file>blue_house.png</file>
+    <file>coordinate_system.png</file>
+    <file>estop.png</file>
+    <file>magician_gui_image.png</file>
+  </qresource>
+</RCC>

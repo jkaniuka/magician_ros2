@@ -1,0 +1,6 @@
+#request fields
+bool enable_suction
+---
+#response fields
+bool success   
+string message

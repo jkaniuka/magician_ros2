@@ -1,0 +1,138 @@
+<?xml version="1.0" ?>
+<robot name="magician" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <material name="Red">
+    <color rgba="1 0 0 1"/>
+  </material>
+  <material name="Green">
+    <color rgba="0 1 0 1"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0 0 1 1"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1 0.6 0.0 1"/>
+  </material>
+
+  <link name="magician_root_link"/>
+  <link name="magician_base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianBase.dae"/>
+      </geometry>
+       <material name="Orange"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianBase.dae"/>
+      </geometry>
+      <material name="Orange"/>
+    </collision>
+  </link>
+  <joint name="magician_joint_base" type="fixed">
+    <parent link="magician_root_link"/>
+    <child link="magician_base_link"/>
+    <axis xyz="0 0 0"/>
+    <limit effort="2000" lower="0" upper="0" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="magician_link_1">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianLink1.dae"/>
+      </geometry>
+             <material name="Green"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianLink1.dae"/>
+      </geometry>
+      <material name="Green"/>
+    </collision>
+  </link>
+  <joint name="magician_joint_1" type="revolute">
+    <parent link="magician_base_link"/>
+    <child link="magician_link_1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="2000" lower="-2.1816615649929116" upper="2.1816615649929116" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="magician_link_2">
+    <visual>
+      <origin rpy="0 -0.3490658503988659 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianLink2.dae"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    <collision>
+      <origin rpy="0 -0.3490658503988659 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianLink2.dae"/>
+      </geometry>
+      <material name="Green"/>
+    </collision>
+  </link>
+  <joint name="magician_joint_2" type="revolute">
+    <parent link="magician_link_1"/>
+    <child link="magician_link_2"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2000" lower="-0.08726646259971647" upper="1.5707963267948966" velocity="1"/>
+    <origin rpy="0 0.0 0" xyz="0 0 0.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="magician_link_3">
+    <visual>
+      <origin rpy="0 -0.47123889803846897 0" xyz="0.01645236135969491 0 -0.13399373047157848"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianLink3.dae"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    <collision>
+      <origin rpy="0 -0.47123889803846897 0" xyz="0.01645236135969491 0 -0.13399373047157848"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/core/magicianLink3.dae"/>
+      </geometry>
+      <material name="Green"/>
+    </collision>
+  </link>
+  <joint name="magician_joint_3" type="revolute">
+    <parent link="magician_link_2"/>
+    <child link="magician_link_3"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2000" lower="-0.2617993877991494" upper="1.2217304763960306" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0 0.0 0.135"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <joint name="magician_joint_mimic_1" type="revolute">
+    <parent link="magician_link_3"/>
+    <child link="magician_link_4"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="2000" lower="-3.14159265359" upper="3.14159265359" velocity="1"/>
+    <origin rpy="0 0 0" xyz="0.147 0 0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  <link name="magician_link_4">
+    <visual>
+      <origin rpy="0 0 0" xyz="-0.17715067840465534 0 -0.058595107267811"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/end_tools/link4_collision.dae"/>
+      </geometry>
+      <material name="Red"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="-0.17715067840465534 0 -0.058595107267811"/>
+      <geometry>
+        <mesh filename="package://dobot_description/meshes/collision/end_tools/link4_collision.dae"/>
+      </geometry>
+      <material name="Red"/>
+    </collision>
+  </link>
+</robot>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xacro="http://ros.org/wiki/xacro" name="magician">
+
+  <xacro:include filename="$(find dobot_description)/model/magician.urdf.xacro"/>
+
+
+  <link name="magician_root_link"/>
+
+  <xacro:property name="robot_root" value="magician_root_link" />
+
+  <xacro:magician  base_parent="${robot_root}"/>
+
+</robot>

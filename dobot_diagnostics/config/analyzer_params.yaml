@@ -1,0 +1,101 @@
+analyzers:
+  ros__parameters:
+    path: Dobot Magician
+    sensors:
+      type: 'diagnostic_aggregator/AnalyzerGroup'
+      path: Sensors
+      analyzers:
+        angle_sensor:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Angle Sensor
+          contains: [ '/sensors/angle_sensor' ]
+          find_and_remove_prefix:  [ '/sensors/angle_sensor' ]
+          timeout: 10.0
+    computers:
+      type: 'diagnostic_aggregator/AnalyzerGroup'
+      path: Computers
+      analyzers:
+        mcu:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: MCU
+          contains: [ '/mcu' ]
+          find_and_remove_prefix:  [ '/computers/mcu' ]
+          timeout: 10.0
+        fpga:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: FPGA
+          contains: [ '/fpga' ]
+          find_and_remove_prefix:  [ '/computers/fpga' ]
+          timeout: 10.0
+    links:
+      type: 'diagnostic_aggregator/AnalyzerGroup'
+      path: Links
+      analyzers:
+        parallelogram:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Parallelogram Mechanism
+          contains: [ '/links/parallelogram/' ]
+          find_and_remove_prefix:  [ '/links/parallelogram/' ]
+          timeout: 10.0
+    joints:
+      type: 'diagnostic_aggregator/AnalyzerGroup'
+      path: Joints
+      analyzers:
+        joint1:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Joint1
+          contains: [ '/joint1' ]
+          find_and_remove_prefix:  [ '/joint1' ]
+          timeout: 10.0
+        joint2:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Joint2
+          contains: [ '/joint2' ]
+          find_and_remove_prefix:  [ '/joint2' ]
+          timeout: 10.0
+        joint3:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Joint3
+          contains: [ '/joint3' ]
+          find_and_remove_prefix:  [ '/joint3' ]
+          timeout: 10.0
+        joint4:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Joint4
+          contains: [ '/joint4' ]
+          find_and_remove_prefix:  [ '/joint4' ]
+          timeout: 10.0
+    motors:
+      type: 'diagnostic_aggregator/AnalyzerGroup'
+      path: Motors
+      analyzers:
+        stepper1:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Base Stepper Motor
+          contains: [ '/stepper1' ]
+          find_and_remove_prefix:  [ '/stepper1' ]
+          timeout: 10.0
+        stepper2:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Rear Arm Stepper Motor
+          contains: [ '/stepper2' ]
+          find_and_remove_prefix:  [ '/stepper2' ]
+          timeout: 10.0
+        stepper3:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: Forearm Stepper Motor
+          contains: [ '/stepper3' ]
+          find_and_remove_prefix:  [ '/stepper3' ]
+          timeout: 10.0
+        servo:
+          type: diagnostic_aggregator/GenericAnalyzer
+          path: End Effector Servo
+          contains: [ '/servo' ]
+          find_and_remove_prefix:  [ '/servo' ]
+          timeout: 10.0
+    other:
+      type: diagnostic_aggregator/GenericAnalyzer
+      path: Other
+      startswith: [ '/other' ]
+      find_and_remove_prefix:  [ '/other' ]
+      timeout: 10.0

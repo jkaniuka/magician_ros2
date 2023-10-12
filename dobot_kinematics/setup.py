@@ -7,7 +7,7 @@ package_name = 'dobot_kinematics'
 setup(
     name=package_name,
     version='1.0.0',
-    packages=[package_name, 'examples'],
+    packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -30,7 +30,6 @@ setup(
         'console_scripts': [
             'trajectory_validator_client = dobot_kinematics.trajectory_validator_client:main',
             'trajectory_validator_server = dobot_kinematics.trajectory_validator_server:main',
-            'fkin_test = examples.fkin_test:main',
         ],
     },
 )

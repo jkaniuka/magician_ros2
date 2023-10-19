@@ -68,6 +68,14 @@ cd magician_ros2_control_system_ws
 rosdep install -i --from-path src --rosdistro humble -y
 colcon build
 ```
+
+### Access to serial ports  
+In order to communicate with the robot, access to serial ports is required. To be able to open serial ports without using `sudo`, you need to add yourself to the **dialout** group:
+
+```bash
+sudo usermod -a -G dialout <username>
+```
+
 <a name="running"></a>
 ## System startup :robot:
 1. Connect Dobot Magician with a USB cable to the computer and then turn it on. 

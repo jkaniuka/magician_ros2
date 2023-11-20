@@ -259,7 +259,7 @@ Running sample scripts:
 ## Sliding rail 
 If you have _Dobot Magician Sliding Rail_ and you want to get real time feedback about the position of the carriage you need to export `MAGICIAN_RAIL_IN_USE` environment variable before launching entire control stack (`export MAGICIAN_RAIL_IN_USE=true`).  
 The current position of the carriage on the sliding rail will be published on the `/dobot_rail_pose` topic at a frequency of 20 Hz.   
-After disconnecting the sliding rail, continue your work in a new terminal window or type `unset MAGICIAN_RAIL_IN_USE`. Control of the sliding rail is also possible from **Dobot Magician Control Panel** RQT plugin.
+After disconnecting the sliding rail, type `unset MAGICIAN_RAIL_IN_USE` and restart entire control system. Control of the sliding rail is also possible from **Dobot Magician Control Panel** RQT plugin.
 
 <a name="mrs"></a>
 ## Multi-Robot System (MRS) :robot:

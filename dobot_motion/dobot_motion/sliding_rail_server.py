@@ -8,7 +8,7 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from dobot_driver.dobot_handle import bot
-from rcl_interfaces.msg import SetParametersResult
+from rcl_interfaces.msg import SetParametersResult, ParameterDescriptor
 from dobot_msgs.msg import DobotAlarmCodes
 from rclpy.parameter import Parameter
 from std_msgs.msg import Float64
@@ -53,6 +53,14 @@ class SlidingRailPTPServer(Node):
         self.rail_acc = 100 # init value within safe range
         self.active_alarms = False
 
+        self.declare_parameter('rail_vel', rclpy.Parameter.Type.INTEGER, 
+                               ParameterDescriptor(description='Sliding rail velocity expressed in mm/s.', 
+                                                   additional_constraints = "The velocity value must be less than 140."))
+
+        self.declare_parameter('rail_acc', rclpy.Parameter.Type.INTEGER, 
+                        ParameterDescriptor(description='Sliding rail acceleration expressed in mm/s^2.', 
+                                            additional_constraints = "The acceleration value must be less than 140."))
+        
         self.add_on_set_parameters_callback(self.parameters_callback)
 
     def parameters_callback(self, params):

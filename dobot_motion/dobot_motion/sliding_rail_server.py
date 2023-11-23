@@ -39,7 +39,7 @@ class SlidingRailPTPServer(Node):
             self.active_alarms_callback,
             10)
         
-        self.subscription_rail_pose = self._node.create_subscription(
+        self.subscription_rail_pose = self.create_subscription(
             Float64,
             'dobot_rail_pose',
             self.rail_pose_callback,
@@ -65,11 +65,11 @@ class SlidingRailPTPServer(Node):
 
     def parameters_callback(self, params):
         for param in params:
-            if param.name == 'rail_vel' and param.type_ == Parameter.Type.DOUBLE:
+            if param.name == 'rail_vel' and param.type_ == Parameter.Type.INTEGER:
                 self.rail_vel = param.value
                 bot.set_point_to_point_sliding_rail_params(int(self.rail_vel) * 2, int(self.rail_acc) * 2) #BUG
                 return SetParametersResult(successful=True)
-            elif param.name == 'rail_acc' and param.type_ == Parameter.Type.DOUBLE:
+            elif param.name == 'rail_acc' and param.type_ == Parameter.Type.INTEGER:
                 self.rail_acc = param.value
                 bot.set_point_to_point_sliding_rail_params(int(self.rail_vel) * 2, int(self.rail_acc) * 2) #BUG
                 return SetParametersResult(successful=True)
@@ -117,7 +117,7 @@ class SlidingRailPTPServer(Node):
             self.get_logger().info("Rail velocity: {0}".format(self.rail_vel))
             self.get_logger().info("Rail acceleration: {0}".format(self.rail_acc))
         else:
-            self.get_logger().info('Wrong rail acceleration or velocity value')
+            self.get_logger().warn('Wrong rail acceleration or velocity value')
             return GoalResponse.REJECT
 
         self.get_logger().info('Goal: {0}'.format(self.target))
@@ -160,7 +160,7 @@ class SlidingRailPTPServer(Node):
         result = SlidingRail.Result()
 
         # Start executing the action
-        while not (SlidingRailPTPServer.is_goal_reached(self.target, self.dobot_pose, 0.2) and SlidingRailPTPServer.is_pose_stable(self.pose_arr)):
+        while not (SlidingRailPTPServer.is_goal_reached(self.target, self.rail_pose, 0.2) and SlidingRailPTPServer.is_pose_stable(self.pose_arr)):
             if goal_handle.is_cancel_requested:
                 goal_handle.canceled()
                 bot.stop_queue(force=True) 

@@ -259,7 +259,16 @@ Running sample scripts:
 ## Sliding rail 
 If you have _Dobot Magician Sliding Rail_ and you want to get real time feedback about the position of the carriage you need to export `MAGICIAN_RAIL_IN_USE` environment variable before launching entire control stack (`export MAGICIAN_RAIL_IN_USE=true`).  
 The current position of the carriage on the sliding rail will be published on the `/dobot_rail_pose` topic at a frequency of 20 Hz.   
-After disconnecting the sliding rail, type `unset MAGICIAN_RAIL_IN_USE` and restart entire control system. Control of the sliding rail is also possible from **Dobot Magician Control Panel** RQT plugin.
+After disconnecting the sliding rail, type `unset MAGICIAN_RAIL_IN_USE` and restart entire control system. 
+
+Control of the sliding rail is possible both from **Dobot Magician Control Panel** RQT plugin and by using `/move_sliding_rail` action server. To launch `/move_sliding_rail` action server and load parameters (sliding rail velocity and acceleration) use the command below:
+```
+ros2 launch dobot_motion dobot_rail.launch.py
+```
+An example of a command that allows you to send a goal to an action server can be found below:
+```
+ros2 action send_goal /move_sliding_rail dobot_msgs/action/SlidingRail "{target_pose: 500}"
+```
 
 <a name="mrs"></a>
 ## Multi-Robot System (MRS) :robot:

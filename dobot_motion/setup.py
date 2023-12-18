@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'PTP_server = dobot_motion.PTP_server:main',
+            'sliding_rail_server = dobot_motion.sliding_rail_server:main',
         ],
     },
 )

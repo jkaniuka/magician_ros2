@@ -268,6 +268,7 @@ class DobotPTPServer(Node):
 
         feedback_msg = PointToPoint.Feedback()
         feedback_msg.current_pose = [0.0, 0.0, 0.0, 0.0]
+        self.pose_arr = []
 
         result = PointToPoint.Result()
 

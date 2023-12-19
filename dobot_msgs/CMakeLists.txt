@@ -21,6 +21,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/GripperStatus.msg"
   "srv/EvaluatePTPTrajectory.srv"
   "srv/ExecuteHomingProcedure.srv"
+  "srv/ExecuteAlarmClear.srv"
   "srv/GripperControl.srv"
   "srv/SuctionCupControl.srv"
   DEPENDENCIES std_msgs geometry_msgs

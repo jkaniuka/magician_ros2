@@ -20,7 +20,7 @@ def generate_launch_description():
 
 
     # -----------------------------------------------------------------------------------------------------------------
-    # Check if MAGICIAN_TOOL env var has the right value 
+    # Check if MAGICIAN_TOOL env var has the right value
     tool_env_var = str(os.environ.get('MAGICIAN_TOOL'))
 
     if tool_env_var == "None":
@@ -80,6 +80,15 @@ def generate_launch_description():
         condition = IfCondition(PythonExpression(valid_tool))
     )
 
+    alarm_clear =ExecuteProcess(
+        cmd=[[
+            'ros2 ', 'launch ', 'dobot_alarm_clear ', 'dobot_alarm_clear.launch.py'
+        ]],
+        shell=True,
+        output='screen',
+        condition = IfCondition(PythonExpression(valid_tool))
+    )
+
     trajectory_validator =ExecuteProcess(
         cmd=[[
             'ros2 ', 'launch ', 'dobot_kinematics ', 'dobot_validate_trajectory.launch.py'
@@ -108,7 +117,7 @@ def generate_launch_description():
     # -----------------------------------------------------------------------------------------------------------------
 
     # -----------------------------------------------------------------------------------------------------------------
-    # OnProcessStart events for information purposes 
+    # OnProcessStart events for information purposes
 
     tool_null_event = RegisterEventHandler(
         OnProcessStart(
@@ -152,6 +161,15 @@ def generate_launch_description():
             on_start=[
                 LogInfo(msg='Starting homing service.'),
                 LogInfo(msg='Loading homing parameters.')
+            ]
+        )
+    )
+
+    alarm_clear_event = RegisterEventHandler(
+        OnProcessStart(
+            target_action=alarm_clear,
+            on_start=[
+                LogInfo(msg='Starting alarm clearing service.')
             ]
         )
     )
@@ -229,6 +247,11 @@ def generate_launch_description():
         actions=[homing]
         )
 
+    alarm_clear_sched = TimerAction(
+        period=3.0,
+        actions=[alarm_clear]
+        )
+
     trajectory_validator_sched = TimerAction(
         period=5.0,
         actions=[trajectory_validator]
@@ -253,6 +276,7 @@ def generate_launch_description():
         gripper_event,
         suction_cup_event,
         homing_event,
+        alarm_clear_event,
         trajectory_validator_event,
         PTP_action_event,
         robot_state_event,
@@ -261,6 +285,7 @@ def generate_launch_description():
         gripper_sched,
         suction_cup_sched,
         homing_sched,
+        alarm_clear_sched,
         trajectory_validator_sched,
         PTP_action_sched,
         robot_state_sched,

@@ -17,6 +17,7 @@ find_package(geometry_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/PointToPoint.action"
+  "action/SlidingRail.action"
   "msg/DobotAlarmCodes.msg"
   "msg/GripperStatus.msg"
   "srv/EvaluatePTPTrajectory.srv"

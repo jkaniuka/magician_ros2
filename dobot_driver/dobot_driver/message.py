@@ -66,7 +66,12 @@ class Message:
         return Message.parse(header + bytes([length]) + payload + checksum)
 
     def parse_params(self, direction):
-        message_parsers = parsers[self.id]
+        # <BUGFIX>
+        if self.id == 20 and self.rw == 1:
+            message_parsers = parsers[21]
+        else:
+            message_parsers = parsers[self.id]
+        # </BUGFIX>
 
         if direction == 'in':
             if message_parsers is None:

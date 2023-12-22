@@ -32,7 +32,7 @@ class Interface:
         self.lock.release()
         if response is None:
             pass
-        else: 
+        else:
             return response.params
 
     def send_only(self, message):
@@ -97,7 +97,7 @@ class Interface:
 
     def clear_alarms_state(self):
         request = Message([0xAA, 0xAA], 2, 20, True, False, [], direction='out') #BUG
-        return self.send_only(request)
+        return self.send(request)
 
     def get_homing_paramaters(self):
         request = Message([0xAA, 0xAA], 2, 30, False, False, [], direction='out')

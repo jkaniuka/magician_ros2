@@ -18,6 +18,7 @@
 * [Control system nodes](#nodes)
 * [Dobot Magician Control Panel - RQT plugin](#dmcp)
 * [Examples](#examples)
+* [Sliding rail](#rail)
 * [Contributing](#contributing)
 
 <a name="running"></a>
@@ -57,6 +58,12 @@ ros2 run dobot_control_panel dobot_control_panel --ros-args -r __ns:=/magician1
 :arrow_right: After opening _Dobot Magician Control Panel_, the namespace under which the robot was launched will appear on the main screen. This will help you distinguish which control panel is used to control which robot.   
 :warning: When you use _Dobot Magician Control Panel_, no other robot control program can be run. Either the robot is controlled in **manual mode** or in **automatic mode**.   
 
+<a name="rail"></a>
+## Sliding rail (optional)
+If you want to use sliding rail in your multi-robot system, use the following command:
+```
+ros2 launch dobot_motion dobot_rail.launch.py robot_name:=magician1
+```
 
 
 <a name="examples"></a>

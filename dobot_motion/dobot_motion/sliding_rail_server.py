@@ -7,7 +7,7 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
-from dobot_driver.dobot_handle import bot
+from dobot_driver.dobot_configuration import manipulators
 from rcl_interfaces.msg import SetParametersResult, ParameterDescriptor
 from dobot_msgs.msg import DobotAlarmCodes
 from rclpy.parameter import Parameter
@@ -61,18 +61,18 @@ class SlidingRailPTPServer(Node):
                         ParameterDescriptor(description='Sliding rail acceleration expressed in mm/s^2.', 
                                             additional_constraints = "The acceleration value must be less than 140."))
         
-        bot.set_sliding_rail_status(1,1)
+        manipulators[self.get_namespace()].set_sliding_rail_status(1,1)
         self.add_on_set_parameters_callback(self.parameters_callback)
 
     def parameters_callback(self, params):
         for param in params:
             if param.name == 'rail_vel' and param.type_ == Parameter.Type.INTEGER:
                 self.rail_vel = param.value
-                bot.set_point_to_point_sliding_rail_params(int(self.rail_vel) * 2, int(self.rail_acc) * 2) #BUG
+                manipulators[self.get_namespace()].set_point_to_point_sliding_rail_params(int(self.rail_vel) * 2, int(self.rail_acc) * 2) #BUG
                 return SetParametersResult(successful=True)
             elif param.name == 'rail_acc' and param.type_ == Parameter.Type.INTEGER:
                 self.rail_acc = param.value
-                bot.set_point_to_point_sliding_rail_params(int(self.rail_vel) * 2, int(self.rail_acc) * 2) #BUG
+                manipulators[self.get_namespace()].set_point_to_point_sliding_rail_params(int(self.rail_vel) * 2, int(self.rail_acc) * 2) #BUG
                 return SetParametersResult(successful=True)
             else:
                 return SetParametersResult(successful=False)
@@ -148,7 +148,7 @@ class SlidingRailPTPServer(Node):
     async def execute_callback(self, goal_handle):
         """Execute a goal."""
         self.get_logger().info('Executing goal...')
-        bot.set_point_to_point_sliding_rail_command(4,self.dobot_pose[0], 
+        manipulators[self.get_namespace()].set_point_to_point_sliding_rail_command(4,self.dobot_pose[0], 
                                                     self.dobot_pose[1], 
                                                     self.dobot_pose[2], 
                                                     self.dobot_pose[3], 
@@ -164,9 +164,9 @@ class SlidingRailPTPServer(Node):
         while not (SlidingRailPTPServer.is_goal_reached(self.target, self.rail_pose, 0.2) and SlidingRailPTPServer.is_pose_stable(self.pose_arr)):
             if goal_handle.is_cancel_requested:
                 goal_handle.canceled()
-                bot.stop_queue(force=True) 
-                bot.clear_queue()
-                bot.start_queue()
+                manipulators[self.get_namespace()].stop_queue(force=True) 
+                manipulators[self.get_namespace()].clear_queue()
+                manipulators[self.get_namespace()].start_queue()
                 self.get_logger().info('Goal canceled')
                 result.achieved_pose  = self.dobot_pose
                 return result

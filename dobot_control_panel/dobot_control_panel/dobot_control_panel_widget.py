@@ -38,7 +38,7 @@ class DobotControlPanel(QWidget):
         shell_cmd = subprocess.Popen('lsusb | grep "Silicon Labs CP210x UART Bridge" ', shell=True, stdout=subprocess.PIPE)
         is_connected = shell_cmd.stdout.read().decode('utf-8')
         if not is_connected:
-            sys.exit("Dobot is disconnected!")
+            sys.exit("Dobot is disconnected! Check if the USB cable and power adapter are plugged in.")
 
 
         self._node = node

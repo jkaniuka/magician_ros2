@@ -1,0 +1,4 @@
+/dobot_rail_server:
+  ros__parameters:
+    rail_vel: 100
+    rail_acc: 100

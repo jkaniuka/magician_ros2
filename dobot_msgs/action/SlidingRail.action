@@ -1,0 +1,8 @@
+#goal definition
+float64 target_pose
+---
+#result definition
+float64 achieved_pose
+---
+#feedback definition
+float64 current_pose

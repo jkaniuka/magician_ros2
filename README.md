@@ -31,7 +31,7 @@ manipulators = {"/magician1": Interface('/dev/ttyUSB0'),
                 "/magician2": Interface('/dev/ttyUSB1')
                 }
 ```
-
+(If you don't know to which ports the robots are connected, you can check it with the [check_ports.py](./dobot_driver/dobot_driver/check_ports.py) script.)
 
 1. Connect Dobot Magician with a USB cable to the computer and then turn it on. 
 2. Set the MAGICIAN_TOOL environment variable describing the robot's configuration `export MAGICIAN_TOOL=<tool_type>` (allowed values are: _none, pen, suction_cup, gripper, extended_gripper_).

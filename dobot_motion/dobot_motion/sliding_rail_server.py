@@ -61,6 +61,7 @@ class SlidingRailPTPServer(Node):
                         ParameterDescriptor(description='Sliding rail acceleration expressed in mm/s^2.', 
                                             additional_constraints = "The acceleration value must be less than 140."))
         
+        bot.set_sliding_rail_status(1,1)
         self.add_on_set_parameters_callback(self.parameters_callback)
 
     def parameters_callback(self, params):

@@ -9,7 +9,7 @@ import math
 from contextlib import suppress
 from dobot_msgs.msg import GripperStatus, DobotAlarmCodes
 import os
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Float64MultiArray
 
 from dobot_driver.dobot_configuration import manipulators
 
@@ -20,6 +20,7 @@ class DobotPublisher(Node):
         self.publisher_joints = self.create_publisher(JointState, 'dobot_joint_states', 10)
         self.publisher_joints_rviz = self.create_publisher(JointState, 'joint_states', 10)
         self.publisher_TCP = self.create_publisher(PoseStamped, 'dobot_TCP', 10)
+        self.publisher_pose_raw = self.create_publisher(Float64MultiArray, 'dobot_pose_raw', 10)
         self.publisher_alarms = self.create_publisher(DobotAlarmCodes, 'dobot_alarms', 10)
         self.subscription = self.create_subscription(GripperStatus, 'gripper_status_rviz', self.listener_callback, 10)
         timer_period = 0.05  # 50ms = 20Hz
@@ -76,6 +77,11 @@ class DobotPublisher(Node):
 
         with suppress(ValueError, TypeError):
             [x, y, z, r, theta1, theta2, theta3, theta4] = manipulators[self.get_namespace()].get_pose()
+
+
+            msg = Float64MultiArray()
+            msg.data = [x/1000, y/1000, z/1000, r]
+            self.publisher_pose_raw.publish(msg)
 
             joint_state = JointState()
             now = self.get_clock().now()

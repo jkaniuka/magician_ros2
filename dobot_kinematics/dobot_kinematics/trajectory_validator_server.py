@@ -11,6 +11,7 @@ import tf_transformations
 from dobot_kinematics.collision_detection_server import PyBulletCollisionServer
 import numpy as np
 import os
+from std_msgs.msg import Float64MultiArray
 
 
 
@@ -20,7 +21,7 @@ class PoseValidatorService(Node):
     def __init__(self):
         super().__init__('dobot_trajectory_validation_server')
         self.srv_PTP = self.create_service(EvaluatePTPTrajectory, 'dobot_PTP_validation_service', self.PTP_trajectory_callback)
-        self.subscription_TCP = self.create_subscription(PoseStamped, 'dobot_TCP', self.tcp_position_callback, 10)
+        self.subscription_TCP = self.create_subscription(Float64MultiArray, 'dobot_pose_raw', self.tcp_position_callback, 10)
         self.collision_server = PyBulletCollisionServer()
 
 
@@ -35,7 +36,6 @@ class PoseValidatorService(Node):
         self.axis_4_range = {"min": -150, "max": 150}
 
         self.path_to_collision_model = None
-        self.prevent_collision_with_ground = None
 
         # User-defined axis limits
 
@@ -62,10 +62,6 @@ class PoseValidatorService(Node):
         # Additional parameters used for collision detection
 
 
-        # Tool type
-        self.declare_parameter('use_ground_collision_detection', rclpy.Parameter.Type.BOOL, 
-        ParameterDescriptor(description = "If ground collision detection is on, then you cannot command the movement to the point where the end tool hits the ground. This option is especially useful during laboratory classes and for beginners :-)"))
-
 
         self.add_on_set_parameters_callback(self.parameters_callback)
 
@@ -89,21 +85,19 @@ class PoseValidatorService(Node):
                 self.axis_4_range["min"] = param.value[0]
                 self.axis_4_range["max"] = param.value[1]
                 return SetParametersResult(successful=True)
-            elif param.name == "use_ground_collision_detection":
-                if param.value == True:
-                    self.prevent_collision_with_ground = True
-                elif param.value == False:
-                    self.prevent_collision_with_ground = False
-                return SetParametersResult(successful=True)
+            # elif param.name == "use_ground_collision_detection":
+            #     if param.value == True:
+            #         self.prevent_collision_with_ground = True
+            #     elif param.value == False:
+            #         self.prevent_collision_with_ground = False
+            #     return SetParametersResult(successful=True)
             else:
                 return SetParametersResult(successful=False)
 
 
 
     def tcp_position_callback(self, msg):
-            quat = (msg.pose.orientation.x, msg.pose.orientation.y, msg.pose.orientation.z, msg.pose.orientation.w)
-            _, _, y = tf_transformations.euler_from_quaternion(quat)
-            self.dobot_pose = [float(msg.pose.position.x)*1000, float(msg.pose.position.y)*1000, float(msg.pose.position.z)*1000, float(math.degrees(y))]
+            self.dobot_pose = [float(msg.data[0])*1000, float(msg.data[1])*1000, float(msg.data[2])*1000, float(msg.data[3])]
 
 
     def PTP_trajectory_callback(self, request, response):
@@ -112,11 +106,20 @@ class PoseValidatorService(Node):
 
 
 
-    def are_angles_in_range(self, angles):
+    def are_angles_in_range_joint(self, angles):
         if (self.axis_1_range["min"] < angles[0] < self.axis_1_range["max"]) and \
            (self.axis_2_range["min"] < angles[1] < self.axis_2_range["max"]) and \
            (self.axis_3_range["min"] < angles[2] < self.axis_3_range["max"]) and \
            (self.axis_4_range["min"] < angles[3] < self.axis_4_range["max"]):
+           return True
+        return False
+    
+    def are_angles_in_range_cartesian(self, angles, position):
+        JT1 = math.degrees(math.atan2(position[1],position[0]))
+        if (self.axis_1_range["min"] < angles[0] < self.axis_1_range["max"]) and \
+           (self.axis_2_range["min"] < angles[1] < self.axis_2_range["max"]) and \
+           (self.axis_3_range["min"] < angles[2] < self.axis_3_range["max"]) and \
+           (self.axis_4_range["min"] + JT1 < angles[3] < self.axis_4_range["max"] + JT1):
            return True
         return False
 
@@ -125,12 +128,12 @@ class PoseValidatorService(Node):
 
         # Target expressed in joint coordinates
         if target_type == 4:
-            in_limit = self.are_angles_in_range(target)
+            in_limit = self.are_angles_in_range_joint(target)
             if in_limit == False:
                 return (False, 'Joint limits violated')
-            is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = target, detect_ground = self.prevent_collision_with_ground)
-            if is_trajectory_safe == False:
-                return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
+            # is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = target, detect_ground = self.prevent_collision_with_ground)
+            # if is_trajectory_safe == False:
+            #     return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
             else:
                 return (True, 'Trajectory is safe and feasible.')
             
@@ -146,12 +149,12 @@ class PoseValidatorService(Node):
                 angles = calc_inv_kin(*point)
                 if angles == False:
                     return (False, 'Inv Kin solving error!')
-                in_limit = self.are_angles_in_range(angles)
+                in_limit = self.are_angles_in_range_joint(angles)
                 if in_limit == False:
                     return (False, 'Joint limits violated')
-            is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = cartesian_target_list, detect_ground = self.prevent_collision_with_ground)
-            if is_trajectory_safe == False:
-                return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
+            # is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = cartesian_target_list, detect_ground = self.prevent_collision_with_ground)
+            # if is_trajectory_safe == False:
+            #     return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
             else:
                 return (True, 'Trajectory is safe and feasible.')
 
@@ -161,12 +164,12 @@ class PoseValidatorService(Node):
             angles = calc_inv_kin(*target)
             if angles == False:
                 return (False, 'Inv Kin solving error!')
-            in_limit = self.are_angles_in_range(angles)
+            in_limit = self.are_angles_in_range_cartesian(angles, target)
             if in_limit == False:
                 return (False, 'Joint limits violated')
-            is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = target, detect_ground = self.prevent_collision_with_ground)
-            if is_trajectory_safe == False:
-                return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
+            # is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = target, detect_ground = self.prevent_collision_with_ground)
+            # if is_trajectory_safe == False:
+            #     return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
             else:
                 return (True, 'Trajectory is safe and feasible.')
 
@@ -179,14 +182,14 @@ class PoseValidatorService(Node):
                 angles = calc_inv_kin(*point)
                 if angles == False:
                     return (False, 'Inv Kin solving error!')
-                in_limit = self.are_angles_in_range(angles)
+                in_limit = self.are_angles_in_range_cartesian(angles, target)
                 if in_limit == False:
                     return (False, 'Joint limits violated')
-            is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = target, detect_ground = self.prevent_collision_with_ground)
-            if is_trajectory_safe == False:
-                return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
-            else:
-                return (True, 'Trajectory is safe and feasible.')
+            # is_trajectory_safe = self.collision_server.validate_trajectory(motion_type = target_type, current_pose = self.dobot_pose, target_point = target, detect_ground = self.prevent_collision_with_ground)
+            # if is_trajectory_safe == False:
+            #     return (False, 'A collision was detected during trajectory validation. The movement cannot be executed.')
+            # else:
+            return (True, 'Trajectory is safe and feasible.')
 
         elif target_type == "continuous_path": 
             #TODO

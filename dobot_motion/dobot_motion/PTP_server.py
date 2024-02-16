@@ -15,6 +15,7 @@ from rcl_interfaces.msg import SetParametersResult
 from threading import Thread
 from dobot_msgs.srv import EvaluatePTPTrajectory
 from dobot_msgs.msg import DobotAlarmCodes
+from std_msgs.msg import Float64MultiArray
 
 class DobotPTPServer(Node):
 
@@ -37,8 +38,8 @@ class DobotPTPServer(Node):
             10)
 
         self.subscription_TCP = self.create_subscription(
-            PoseStamped,
-            'dobot_TCP',
+            Float64MultiArray,
+            'dobot_pose_raw',
             self.tcp_position_callback,
             10)
         
@@ -176,9 +177,7 @@ class DobotPTPServer(Node):
 
     def tcp_position_callback(self, msg):
         if self.motion_type in [0, 1, 2, 7, 8, 9]:
-            quat = (msg.pose.orientation.x, msg.pose.orientation.y, msg.pose.orientation.z, msg.pose.orientation.w)
-            _, _, y = tf_transformations.euler_from_quaternion(quat)
-            self.dobot_pose = [float(msg.pose.position.x)*1000, float(msg.pose.position.y)*1000, float(msg.pose.position.z)*1000, float(math.degrees(y))]
+            self.dobot_pose = [float(msg.data[0])*1000, float(msg.data[1])*1000, float(msg.data[2])*1000, float(msg.data[3])]
             self.mode_ACK = True
 
 

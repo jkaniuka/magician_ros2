@@ -111,7 +111,8 @@ If you already have an open RQT you will find this plugin in section _Plugins ->
 <a name="topics"></a>
 ## Published topics
 - `/joint_states` (sensor_msgs/msg/JointState) - angles values in the manipulator's joints 
-- `/dobot_TCP` (geometry_msgs/msg/PoseStamped) - position of the coordinate frame associated with the end of the last robot link 
+- `/dobot_TCP` (geometry_msgs/msg/PoseStamped) - position of the coordinate frame associated with the end of the last robot link (orientation given as a quaternion)
+- `/dobot_pose_raw` (std_msgs/msg/Float64MultiArray) - position of the coordinate frame associated with the end of the last robot link (raw orientation received from Dobot expressed in degrees)
 
 <a name="motion"></a>
 ## Motion
@@ -137,21 +138,16 @@ The parameters associated with the motion action server node allow you to determ
 
 
 ### Goal/trajectory validation
-The motion target is checked by the trajectory validation service server before execution. Among other things, the trajectory validation service server checks whether the target point is in the manipulator's workspace, whether there is a solution to the inverse kinematics task, and whether the trajectory is collision-free.  
+The motion target is checked by the trajectory validation service server before execution. The trajectory validation service server checks whether the target point is in the manipulator's workspace and whether there is a solution to the inverse kinematics task.  
   
-The parameters of the node implementing the trajectory validation server are: `axis_1_range`, `axis_2_range`, `axis_3_range`, `axis_4_range`, `use_ground_collision_detection`.
+The parameters of the node implementing the trajectory validation server are: `axis_1_range`, `axis_2_range`, `axis_3_range`, `axis_4_range`.
 * The first four of these allow the manipulator's working space to be limited by setting position restrictions at joints other than those resulting from the mechanical design. If you send a motion order to a point that violates the restrictions you defined, you will receive the following response from the PointToPoint action server:
 ```
 Response: [PTP_server-1] [WARN] [1668081940.281544573] [dobot_PTP_server]:  
 Goal rejected: dobot_msgs.srv.EvaluatePTPTrajectory_Response(is_valid=False,  
 message='Joint limits violated')  
 ```
-* Setting `use_ground_collision_detection` parameter to True, will check whether reaching the target point will cause a collision with the ground. This helps prevent damage to the gripper. If movement to the target will result in a collision with the ground, the action server will reject such a target and return the following message:  
-```
-Response: [PTP_server-1] [WARN] [1668080416.844542343] [dobot_PTP_server]:
-Goal rejected: dobot_msgs.srv.EvaluatePTPTrajectory_Response(is_valid=False, 
-message='A collision was detected during trajectory validation. The movement cannot be executed.')
-```
+
 
 <a name="visualization"></a>
 ## Visualization in RViz

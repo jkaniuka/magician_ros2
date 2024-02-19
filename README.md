@@ -112,7 +112,7 @@ If you already have an open RQT you will find this plugin in section _Plugins ->
 ## Published topics
 - `/joint_states` (sensor_msgs/msg/JointState) - angles values in the manipulator's joints 
 - `/dobot_TCP` (geometry_msgs/msg/PoseStamped) - position of the coordinate frame associated with the end of the last robot link (orientation given as a quaternion)
-- `/dobot_pose_raw` (std_msgs/msg/Float64MultiArray) - position of the coordinate frame associated with the end of the last robot link (raw orientation received from Dobot expressed in degrees)
+- `/dobot_pose_raw` (std_msgs/msg/Float64MultiArray) - position of the coordinate frame associated with the end of the last robot link (raw orientation received from Dobot, expressed in degrees)
 
 <a name="motion"></a>
 ## Motion

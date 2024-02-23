@@ -168,7 +168,7 @@ class SlidingRailPTPServer(Node):
                 bot.clear_queue()
                 bot.start_queue()
                 self.get_logger().info('Goal canceled')
-                result.achieved_pose  = self.dobot_pose
+                result.achieved_pose  = self.rail_pose
                 return result
 
 

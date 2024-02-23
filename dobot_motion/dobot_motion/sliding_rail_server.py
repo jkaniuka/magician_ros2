@@ -168,7 +168,7 @@ class SlidingRailPTPServer(Node):
                 manipulators[self.get_namespace()].clear_queue()
                 manipulators[self.get_namespace()].start_queue()
                 self.get_logger().info('Goal canceled')
-                result.achieved_pose  = self.dobot_pose
+                result.achieved_pose  = self.rail_pose
                 return result
 
 

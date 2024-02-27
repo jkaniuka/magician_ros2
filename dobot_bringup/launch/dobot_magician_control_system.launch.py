@@ -39,6 +39,13 @@ def generate_launch_description():
 
     name_arg = DeclareLaunchArgument(name='robot_name', default_value='magician1',
                     description='Unique name of the manipulator, which will also be its ROS 2 namespace.')
+    
+    try:
+        manipulators[name_arg]
+    except KeyError:
+        print("[WARN] Configuration in dobot_driver/dobot_configuration.py is wrong.")
+        print("Available namespaces are {0}".format(list(manipulators.keys())))
+        sys.exit(1)
 
 
     # -----------------------------------------------------------------------------------------------------------------

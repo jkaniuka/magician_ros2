@@ -1,13 +1,13 @@
 import os, sys, subprocess
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import LogInfo, RegisterEventHandler, TimerAction, ExecuteProcess, DeclareLaunchArgument
+from launch.actions import LogInfo, RegisterEventHandler, TimerAction, ExecuteProcess, DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessStart, OnShutdown
 from launch.substitutions import LocalSubstitution, PythonExpression, LaunchConfiguration
 from dobot_driver.dobot_configuration import manipulators
 
-def generate_launch_description():
+def launch_setup(context, *args, **kwargs):
 
     # -----------------------------------------------------------------------------------------------------------------
     # Check if the robot is physically connected
@@ -37,15 +37,15 @@ def generate_launch_description():
     ]
     # -----------------------------------------------------------------------------------------------------------------
 
-    name_arg = DeclareLaunchArgument(name='robot_name', default_value='magician1',
-                    description='Unique name of the manipulator, which will also be its ROS 2 namespace.')
-    
+    name_arg = LaunchConfiguration('robot_name').perform(context) # retrieving the launch configuration, as a string.
     try:
-        manipulators[name_arg]
+        manipulators["/" + name_arg]
     except KeyError:
         print("[WARN] Configuration in dobot_driver/dobot_configuration.py is wrong.")
         print("Available namespaces are {0}".format(list(manipulators.keys())))
         sys.exit(1)
+    
+
 
 
     # -----------------------------------------------------------------------------------------------------------------
@@ -257,14 +257,9 @@ def generate_launch_description():
         period=18.0,
         actions=[robot_state]
         )
+    
 
-    # -----------------------------------------------------------------------------------------------------------------
-
-
-    return LaunchDescription([
-        name_arg,
-        tool_null_event,
-        # alarms_event,
+    return [tool_null_event,
         gripper_event,
         suction_cup_event,
         homing_event,
@@ -272,12 +267,19 @@ def generate_launch_description():
         PTP_action_event,
         robot_state_event,
         tool_null_sched,
-        # alarms_sched,
         gripper_sched,
         suction_cup_sched,
         homing_sched,
         trajectory_validator_sched,
         PTP_action_sched,
         robot_state_sched,
-        on_shutdown
+        on_shutdown]
+
+    # -----------------------------------------------------------------------------------------------------------------
+
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument(name='robot_name', default_value='magician1',
+                            description='Unique name of the manipulator, which will also be its ROS 2 namespace.'),
+    OpaqueFunction(function=launch_setup)
     ])

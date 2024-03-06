@@ -1,6 +1,5 @@
 numpy==1.21.5
 pybullet==3.2.5
-PyKDL==1.4.0
 PyQt5==5.15.7
 pyserial==3.5
 pytest==6.2.5

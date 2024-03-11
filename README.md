@@ -296,6 +296,7 @@ If you find this work useful, please give credits to the author by citing:
   author = {Kaniuka, Jan},
   school = {WEiTI},
   title = {{System sterowania robota manipulacyjnego Dobot Magician na bazie frameworka ROS2}},
+  engtitle = {{Control system of DobotMagician robotic manipulator based on ROS2 framework}},
   year = {2023},
   type = {Bachelor's thesis},
   lang = {pl},
@@ -303,7 +304,7 @@ If you find this work useful, please give credits to the author by citing:
   publisher = {IAiIS},
   tutor = {Tomasz Winiarski},
   twiki = {bsc},
-  url = {https://robotyka.ia.pw.edu.pl/svn/rpmpg_pubs/student-theses/jkaniuka-bsc-23-twiki.pdf}
+  url = {https://gitlab-stud.elka.pw.edu.pl/robotyka/rpmpg_pubs/-/raw/main/student-theses/jkaniuka-bsc-23-twiki.pdf}
 }
 ```
 

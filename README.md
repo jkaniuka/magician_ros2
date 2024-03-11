@@ -74,7 +74,10 @@ In order to communicate with the robot, access to serial ports is required. To b
 
 ```bash
 sudo usermod -a -G dialout <username>
+# Relogin or reboot required!
 ```
+
+:warning: The USB port to which Dobot Magician is connected is set by default to **/dev/ttyUSB0** - you can change it in [this file](./dobot_driver/dobot_driver/dobot_handle.py). 
 
 <a name="running"></a>
 ## System startup :robot:

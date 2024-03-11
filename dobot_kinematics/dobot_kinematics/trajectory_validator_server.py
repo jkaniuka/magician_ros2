@@ -32,7 +32,7 @@ class PoseValidatorService(Node):
         self.max_velocity = 115 #TODO [mm/s]
         self.axis_1_range = {"min": -125, "max": 125}
         self.axis_2_range = {"min": -5, "max": 90}
-        self.axis_3_range = {"min": -15, "max": 70}
+        self.axis_3_range = {"min": -15, "max": 60}
         self.axis_4_range = {"min": -150, "max": 150}
 
         self.path_to_collision_model = None
@@ -116,9 +116,14 @@ class PoseValidatorService(Node):
     
     def are_angles_in_range_cartesian(self, angles, position):
         JT1 = math.degrees(math.atan2(position[1],position[0]))
+        JT2 = angles[1]
+        if JT2 <= 40:
+            offset = 0
+        elif JT2 > 40:
+            offset = JT2 - 40
         if (self.axis_1_range["min"] < angles[0] < self.axis_1_range["max"]) and \
            (self.axis_2_range["min"] < angles[1] < self.axis_2_range["max"]) and \
-           (self.axis_3_range["min"] < angles[2] < self.axis_3_range["max"]) and \
+           (self.axis_3_range["min"] + offset < angles[2] < self.axis_3_range["max"]) and \
            (self.axis_4_range["min"] + JT1 < angles[3] < self.axis_4_range["max"] + JT1):
            return True
         return False
